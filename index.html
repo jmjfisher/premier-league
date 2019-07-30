@@ -6,9 +6,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
         
-        <title>Premier League Analysis</title>
+        <title>Premier League Players</title>
         
-        <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css">
         <link rel="stylesheet" href="css/style.css">
         
@@ -22,20 +24,20 @@
             
             <h3>An analysis of Premier League players over time</h3>
             
-            <p><a href="https://jmjfisher.com/" target="_blank">JohnMark Fisher</a> - August 2019</p>
+            <p id='author'><a href="https://jmjfisher.com/" target="_blank">JohnMark Fisher</a> - August 2019</p>
             
-            <p>The 2019 UEFA Champions League Final was the second time in which two English clubs faced-off (the other being in 2008). It was a moment of pride for England's Premier League as there was no longer much argument against the idea it is the best football league in the world. While I was watching it I had a fleeting thought, "just how <i>English</i> is the English Premier League?" My personal favorite team who happened to be playing in that game, Liverpool Football Club, were lead by the attacking trio of Salah, Firmino, and Mane (below) while being backed in defense and in goal by van Dijk and Alisson respectively. These five players, arguably Liverpool's best if not currently their most famous, are not English.</p>
+            <p>The 2019 UEFA Champions League Final was the second time in which two English clubs faced-off (the other being in 2008). It was a moment of pride for England's Premier League as there was no longer much argument against the idea it is the best football league in the world. While I was watching it I had a fleeting thought, "Just how <i>English</i> is the English Premier League?" My personal favorite team who happened to be playing in that game, Liverpool Football Club, were lead by the attacking trio of Mane, Salah, and Firmino while being backed in defense and in goal by van Dijk and Alisson respectively. These five players, arguably Liverpool's finest if not their most famous, are not English.</p>
             
-            <img id="trio" src="img/trio.jpg">
+            <img id="lfc" src="img/lfc.jpg">
             
-            <p>During the final between these two English clubs only 10 of the 28 players (35%) that set foot on the pitch in Madrid were English. This proportion is in line with the overall English representation in the Premier League today. Since the Premier League was renamed as such before the 1992-1993 season, the percent of total league minutes played by English players has decreased from 68% to 33%.</p>
+            <p>During the final between these two English clubs only 10 of the 28 players (35%) that set foot on the pitch in Madrid that day could call themselves English. However, this proportion is in line with the overall English representation in the Premier League today. Since the Premier League was renamed as such before the 1992-1993 season, the percent of total league minutes played by English players has decreased from 68% to 33%.</p>
             
             <p>To derive those values, player specific data were scraped from Sports Reference's football database and summarized to the national team level. With all data, there are a few things to note and keep in mind before continuing:</p>
             
              <ul>
                  <li>The Premier League currently has 20 clubs playing 38 games each. The seasons beginning in years 1992, 1993, and 1994 had 22 clubs playing 42 games each. Those season's totals were normalized against the average number of total minutes per season since, roughly 750,000, in order to be included in this analysis.</li>
                  <li>Players from nations that no longer exist were evaluated and reassigned to a modern equivalent. For example, Slavisa Jokanovic was born in and represented Yugoslavia. His birth city of Novi Sad, SFR Yugoslavia is within modern Serbia, and thus he was reassigned as such. A similar example is USSR to Russia.</li>
-                 <li>There is not always a direct relationship between birth country and nationality/national team. One only has to remember the number of players born in Germany that represented team USA when Klinsmann was running the show to know this is true./li>
+                 <li>There is not always a direct relationship between birth country and nationality/national team. One only has to remember the number of players born in Germany that represented team USA when Klinsmann was running the show to know this is true.</li>
             </ul>
             
             <p>Now, let's dive into it!</p>
@@ -48,7 +50,7 @@
             
             <div class='tableauPlaceholder' id='viz1564493093555' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Pr&#47;PremierLeagueOtherNationsMinutes&#47;NumberofDistinctNationsandTheirMinutesPlayed&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='PremierLeagueOtherNationsMinutes&#47;NumberofDistinctNationsandTheirMinutesPlayed' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Pr&#47;PremierLeagueOtherNationsMinutes&#47;NumberofDistinctNationsandTheirMinutesPlayed&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1564493093555');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.47)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);</script>
             
-            <p>Though English players only accounted for roughly 225,000 minutes played during the most recent season, no other individual country has ever tallied more than 70,000. The highest total for any single country in a season belongs to France in 2002-2003. With a sum of 69,341, Nicolas Anelka, Thierry Henry, William Gallas, Youri Djorkaeff, and Sylvian Distin represented <i>Les Bleus</i> quite well with over 3,000 minutes each.</p>
+            <p>Though English players only accounted for roughly 225,000 minutes played during the most recent season, no other individual country has ever tallied more than 70,000. The highest total for any single country in a season belongs to France in 2002-2003. With a sum of 69,341, Nicolas Anelka, Thierry Henry, William Gallas, Youri Djorkaeff, and Sylvain Distin represented <i>Les Bleus</i> quite well with over 3,000 minutes each.</p>
             
             <p>We may start to get a clearer picture of why this is happening when we look at the number of distinct nations represented. In the 1992-1993 season, players from 30 nations stepped onto the pitch during a game. In 2018-2019, that number jumps up to 65. When compared with Europe's remaining "Big Five" leagues, the Premier League was the most diverse of the bunch during the 2018-2019 campaign.</p>
             
@@ -79,34 +81,41 @@
                 </tr>
             </table>
             
-            <p>Alright, no single nation is making a profound impact on England's representation in its own league as it is getting more diverse overall, but which nations are having the strongest impacts? For this calculation I filtered the nations down to those that have an average number of total minutes played of at least 1% (75,000) throughout the history of the league. I then calculated the percent change in those nations' straight average number of minutes played with their recent or weighted average number of minutes played (2018 minutes * 27 + 2017 minutes * 26 + ... + 1992 minutes * 1 / 378).</p>
+            <p>Alright, no single nation is making a profound impact on England's representation in its own league as it is getting more diverse overall, but which nations are having the strongest impacts? For this calculation I filtered the nations down to those that have an average number of total minutes played of at least 1% (75,000) throughout the history of the league. I then calculated the percent change in those nations' straight average minutes played with their recent or weighted average minutes played (2018 minutes * 27 + 2017 minutes * 26 + ... + 1992 minutes * 1 / 378).</p>
             
             <div class='tableauPlaceholder' id='viz1564494041362' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Pr&#47;PremierLeagueNationalTeamsAveragesAnalysis&#47;PercentChangeRecentWeightedAveragefromAll-timeAverage&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='PremierLeagueNationalTeamsAveragesAnalysis&#47;PercentChangeRecentWeightedAveragefromAll-timeAverage' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Pr&#47;PremierLeagueNationalTeamsAveragesAnalysis&#47;PercentChangeRecentWeightedAveragefromAll-timeAverage&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1564494041362');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.47)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
             
             <p>The Red Devils of Manchester United racked up numerous titles and the Belgian Red Devils are filling the lineup sheets. Meanwhile, Scandinavian (Sweden and Norway) and British Isles (Ireland, Northern Ireland, England, Scotland, and Wales) nations are losing ground. One interesting thing to note is the positive percent changes side of the chart is littered with nations that have found success in the last five FIFA World Cups. These include champions (France, Germany, Spain, and Brazil), runners-up (Netherlands, Argentina, France, and Germany), and third-place finishers (Belgium, Netherlands, and Germany). Coincidence?</p>
             
-            <p>The Premier League is still objectively English, but rather than holding a majority - the last time being the 1996-1997 season - it is now a plurality. Scouts continue to extended their searches for the next Messi well beyond the British Isles. I am generally not interested in politics, but am quite curious about how the rumored impacts of Brexit on the Premier League's ability to recruit and retain foreign players will pan out.</p>
+            <p>It is safe to say the Premier League is <i>English</i>, but rather than holding a majority - the last time being the 1996-1997 season - it is now a plurality. Clubs continue to extended their searches for the next Messi well beyond the British Isles. I stay out of politics, but I am curious about the rumored impacts of <a href="https://www.theguardian.com/football/ng-interactive/2019/feb/14/how-might-brexit-affect-premier-league" target="_blank">Brexit</a> on the Premier League's ability to recruit and retain foreign players and how that change will impact these figures in the future.</p>
             
-            <br><p>Check out the deaggregated, player-level dataset <a href="https://docs.google.com/spreadsheets/d/1Slrxyd-Hwyrs8NfSOjtHTFgOu947gxVIAnp3uj5itug/edit?usp=sharing" target="_blank">here</a>.</p>
+            <p>Still curious about where all of these players are from? Select a season from the following drop down to display information on all players who played during that campaign, including their city of birth, nationality, and total minutes played.</p>
             
-            <br><p>YNWA</p><br><br><br>
-        
+            <div class="select" id="selector">
+                <select id="game-select">
+                    <option value="top">Display all players from...</option>
+                </select>
+                <div class="select_arrow">
+                </div>
+            </div>
+            
+            <div id="map"></div>
+            
+            <br><p>Check out the entire disaggregated, player-level dataset <a href="https://docs.google.com/spreadsheets/d/1Slrxyd-Hwyrs8NfSOjtHTFgOu947gxVIAnp3uj5itug/edit?usp=sharing" target="_blank">here</a>.</p><br>            
+            
         </div>
-<!--
-        <div id="map"></div>
         
-        <div id="objects">
-            <select id="game-select">
-                <option value="top">Display all players from...</option>
-            </select>
+        <div id='ynwa'>
+            <p style="color: white"><b>YNWA</b></p>
         </div>
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
         <script src="js/leaflet-providers.js"></script>
+        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
         
         <script src="js/main.js"></script>
--->
+
     </body>
     
 </html>
