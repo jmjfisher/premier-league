@@ -5,8 +5,8 @@ function initializeMap() {
     });
     
     var map = L.map('map', {
-        center: [52.603500, -1.036899],
-        zoom: 6
+        center: [53.142180, -1.390985],
+        zoom: 5
     });
     
     var basemap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -153,5 +153,20 @@ function fillSelects() {
     
 }; // end fillSelect
 
+function screenSize(){
+    
+    var width = $( window ).width();
+    var height = $( window ).height();
+    
+    if (height>width){
+        
+        $('#main').css({"width":'95%',
+                       "margin-left": '2.5%',
+                       "margin-right": '2.5%'})
+    };
+    
+}; // end screenSize
+
+$(document).ready(screenSize);
 $(document).ready(fillSelects);
 $(document).ready(initializeMap);
