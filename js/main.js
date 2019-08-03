@@ -16,6 +16,7 @@ function initializeMap() {
     }).addTo(map);
     
     $('#game-select').change(function(e){
+        $("#player-select").val('top');
         var value = $('#game-select').val();
         map.eachLayer(function (layer) {
             if (layer != basemap) {
@@ -25,7 +26,58 @@ function initializeMap() {
         updateMap(map,value);
     });
     
+    $('#player-select').change(function(e){
+        $("#game-select").val('top');
+        var value = $('#player-select').val();
+        map.eachLayer(function (layer) {
+            if (layer != basemap) {
+                map.removeLayer(layer);
+            };
+        });
+        playerAdd(map,value);
+    });
+    
 }; // end initializeMap
+
+function playerAdd(map,value){
+    
+    var getURL = 'https://fisherjohnmark.carto.com/api/v2/sql?format=GeoJSON&q=';
+    var sql = "SELECT the_geom, name, nation, city, min FROM fisherjohnmark.pl_players_total where name='"+value+"'&api_key=default_public";
+    
+    var playerMarker = {
+        radius: 5,
+        color: "#C8102E",
+        fillOpacity: 0.5
+    };
+
+    $.getJSON(getURL+sql, function(data){
+        
+        var features = data.features;
+        
+        var allPoints = [];
+        
+        var playerMarkers = L.markerClusterGroup();
+        
+        var players = L.geoJSON(features, {
+            pointToLayer: function (feature, latlng) {
+                allPoints.push(latlng);
+                return L.circleMarker(latlng,playerMarker);
+            },
+            onEachFeature: playerData
+        });
+        
+        playerMarkers.addLayer(players);
+        
+        map.addLayer(playerMarkers);
+        
+        var bounds = L.latLngBounds(allPoints);
+        
+        map.fitBounds(bounds, {
+            maxZoom: 7
+        });
+    });
+    
+}; // end playerAdd
 
 function updateMap(map,value) {
     
@@ -77,7 +129,20 @@ function playerData(feature,layer){
     
 }; // end of playerData
 
-function fillSelect() {
+function fillSelects() {
+    
+    var getURL = 'https://fisherjohnmark.carto.com/api/v2/sql?format=JSON&q=';
+    var sql = 'SELECT name FROM fisherjohnmark.pl_players order by name&api_key=default_public';
+    
+    $.getJSON(getURL+sql, function(data){
+        
+        var names = data.rows;
+        
+        for (i=0;i<names.length;i++){
+            
+            $('#player-select').append($('<option></option>').attr('value', names[i].name).text(names[i].name));
+        };
+    });
     
     seasons = ['1992-1993','1993-1994','1994-1995','1995-1996','1996-1997','1997-1998','1998-1999','1999-2000','2000-2001','2001-2002','2002-2003','2003-2004','2004-2005','2005-2006','2006-2007','2007-2008','2008-2009','2009-2010','2010-2011','2011-2012','2012-2013','2013-2014','2014-2015','2015-2016','2016-2017','2017-2018','2018-2019'];
     
@@ -88,5 +153,5 @@ function fillSelect() {
     
 }; // end fillSelect
 
-$(document).ready(fillSelect);
+$(document).ready(fillSelects);
 $(document).ready(initializeMap);
