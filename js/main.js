@@ -84,7 +84,7 @@ function updateMap(map,value) {
     var qseason = value.slice(0,4)+value.slice(5)
     
     var getURL = 'https://fisherjohnmark.carto.com/api/v2/sql?format=GeoJSON&q=';
-    var sql = 'SELECT the_geom, name, nation, city, s'+qseason+' min FROM fisherjohnmark.pl_players where s'+qseason+' is not null&api_key=default_public';
+    var sql = 'SELECT the_geom, name, nation, city, s'+qseason+' min FROM fisherjohnmark.pl_players where s'+qseason+' > 0&api_key=default_public';
     
     var playerMarker = {
         radius: 5,
@@ -167,6 +167,23 @@ function screenSize(){
     
 }; // end screenSize
 
+function tooltipping(){
+    
+    function showYNWA(){
+        $('#ynwa-text').css( "visibility", "visible" );
+    };
+    
+    function hideYNWA(){
+        console.log('hover');
+        $('#ynwa-text').css( "visibility", "hidden" );
+    };
+    
+    $('.ynwa').hover(showYNWA,hideYNWA)
+    $('[data-toggle="tooltip"]').tooltip();
+    
+}; // end tooltipping
+
 $(document).ready(screenSize);
 $(document).ready(fillSelects);
 $(document).ready(initializeMap);
+$(document).ready(tooltipping);

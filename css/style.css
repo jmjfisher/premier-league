@@ -10,18 +10,26 @@ h1,h2,h3,p,li,td,th {
     font-size: .8em;
 }
 
-#ynwa {
+.ynwa {
     width: 100%;
-    background-color: #d00027;
+    background-color: black;
     height: 20px;
     margin-bottom: 0%;
     text-align: center;
+    vertical-align: middle;
+}
+
+#ynwa-text {
+    color: white;
+    font-size: 13px;
+    visibility: hidden;
 }
 
 #lfc {
     width: 70%;
     margin-left: 15%;
     margin-right: 15%;
+    margin-bottom: 10px;
 }
 
 html, body {
