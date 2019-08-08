@@ -17,6 +17,7 @@ function initializeMap() {
     
     $('#game-select').change(function(e){
         $("#player-select").val('top');
+        $("#nat-select").val('top');
         var value = $('#game-select').val();
         map.eachLayer(function (layer) {
             if (layer != basemap) {
@@ -26,23 +27,43 @@ function initializeMap() {
         updateMap(map,value);
     });
     
+    $('#nat-select').change(function(e){
+        $("#player-select").val('top');
+        $("#game-select").val('top');
+        var value = $('#nat-select').val();
+        map.eachLayer(function (layer) {
+            if (layer != basemap) {
+                map.removeLayer(layer);
+            };
+        });
+        var option = 'nation'
+        playerAdd(map,value,option);
+    });
+    
     $('#player-select').change(function(e){
         $("#game-select").val('top');
+        $("#nat-select").val('top');
         var value = $('#player-select').val();
         map.eachLayer(function (layer) {
             if (layer != basemap) {
                 map.removeLayer(layer);
             };
         });
-        playerAdd(map,value);
+        var option = 'player'
+        playerAdd(map,value,option);
     });
     
 }; // end initializeMap
 
-function playerAdd(map,value){
+function playerAdd(map,value,option){
+    
+    if (option == 'player'){
+        var sql = "SELECT the_geom, name, nation, city, min FROM fisherjohnmark.pl_players_total where name='"+value+"'&api_key=default_public";
+    } else {
+        var sql = "SELECT the_geom, name, nation, city, min FROM fisherjohnmark.pl_players_total where nation='"+value+"'&api_key=default_public";
+    };
     
     var getURL = 'https://fisherjohnmark.carto.com/api/v2/sql?format=GeoJSON&q=';
-    var sql = "SELECT the_geom, name, nation, city, min FROM fisherjohnmark.pl_players_total where name='"+value+"'&api_key=default_public";
     
     var playerMarker = {
         radius: 5,
@@ -56,9 +77,7 @@ function playerAdd(map,value){
         
         var allPoints = [];
         
-        var playerMarkers = L.markerClusterGroup({
-            zoomToBoundsOnClick: false
-        });
+        var playerMarkers = L.markerClusterGroup();
         
         var players = L.geoJSON(features, {
             pointToLayer: function (feature, latlng) {
@@ -71,10 +90,6 @@ function playerAdd(map,value){
         playerMarkers.addLayer(players);
         
         map.addLayer(playerMarkers);
-        
-        playerMarkers.on('clusterclick', function (a) {
-            a.layer.zoomToBounds({padding: [50, 50]});
-        });
 
         var bounds = L.latLngBounds(allPoints);
         
@@ -140,15 +155,26 @@ function playerData(feature,layer){
 function fillSelects() {
     
     var getURL = 'https://fisherjohnmark.carto.com/api/v2/sql?format=JSON&q=';
-    var sql = 'SELECT name FROM fisherjohnmark.pl_players order by name&api_key=default_public';
+    var sql_player = 'SELECT name FROM fisherjohnmark.pl_players order by name&api_key=default_public';
+    var sql_nat = 'SELECT distinct(nation) FROM fisherjohnmark.pl_players order by nation&api_key=default_public';
     
-    $.getJSON(getURL+sql, function(data){
+    $.getJSON(getURL+sql_player, function(data){
         
         var names = data.rows;
         
         for (i=0;i<names.length;i++){
             
             $('#player-select').append($('<option></option>').attr('value', names[i].name).text(names[i].name));
+        };
+    });
+    
+    $.getJSON(getURL+sql_nat, function(data){
+        
+        var nats = data.rows;
+        
+        for (i=0;i<nats.length;i++){
+            
+            $('#nat-select').append($('<option></option>').attr('value', nats[i].nation).text(nats[i].nation));
         };
     });
     
