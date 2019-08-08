@@ -192,11 +192,18 @@ function screenSize(){
     var width = $( window ).width();
     var height = $( window ).height();
     
-    if (height>width){
+    if (height > (width*1.33)){
+        
+        $('.tableau-link').css( "visibility", "visible" );
+        $('.tableauPlaceholder').remove();
         
         $('#main').css({"width":'95%',
                        "margin-left": '2.5%',
-                       "margin-right": '2.5%'})
+                       "margin-right": '2.5%'});
+    } else {
+        
+        $('.tableau-link').remove();
+        
     };
     
 }; // end screenSize
