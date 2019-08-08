@@ -56,7 +56,9 @@ function playerAdd(map,value){
         
         var allPoints = [];
         
-        var playerMarkers = L.markerClusterGroup();
+        var playerMarkers = L.markerClusterGroup({
+            zoomToBoundsOnClick: false
+        });
         
         var players = L.geoJSON(features, {
             pointToLayer: function (feature, latlng) {
@@ -70,6 +72,10 @@ function playerAdd(map,value){
         
         map.addLayer(playerMarkers);
         
+        playerMarkers.on('clusterclick', function (a) {
+            a.layer.zoomToBounds({padding: [50, 50]});
+        });
+
         var bounds = L.latLngBounds(allPoints);
         
         map.fitBounds(bounds, {
@@ -120,10 +126,12 @@ function updateMap(map,value) {
 
 function playerData(feature,layer){
     
-    var popupContent = "<b>"+feature.properties.name+"</b><br>Birth City: "+feature.properties.city+"<br>Nationality: "+feature.properties.nation+"<br>Minutes Played: "+feature.properties.min;
+    var minutes = feature.properties.min.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     
-    layer.bindTooltip(popupContent, {
-        offset: [0,-7],
+    var popupContent = "<b>"+feature.properties.name+"</b><br>Birth City: "+feature.properties.city+"<br>Nationality: "+feature.properties.nation+"<br>Minutes Played: "+minutes;
+    
+    layer.bindPopup(popupContent, {
+        offset: [0,-2],
         direction: 'top',
         className: 'popupPlayer'});
     
@@ -174,7 +182,6 @@ function tooltipping(){
     };
     
     function hideYNWA(){
-        console.log('hover');
         $('#ynwa-text').css( "visibility", "hidden" );
     };
     

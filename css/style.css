@@ -1,5 +1,9 @@
-h1,h2,h3,p,li,td,th {
+h1,h2,h3,h4,p,li,td,th {
     font-family: 'PT Sans', sans-serif;
+}
+
+.qs {
+    font-size: 1.1em;
 }
 
 .tableauPlaceholder {
